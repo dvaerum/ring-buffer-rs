@@ -29,7 +29,10 @@ impl RingBuffer {
         let mut buffer = Vec::with_capacity(ring_buffer_size + 100);
 
         unsafe {
-            buffer.set_len(ring_buffer_size)
+            buffer.set_len(ring_buffer_size);
+
+            let ptr: *mut u8 = buffer.as_mut_ptr();
+            ptr.write_bytes(0u8, buffer.capacity())
         }
 
         let pipe_buffer = RingBuffer {
